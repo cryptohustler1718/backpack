@@ -12,7 +12,7 @@ Open `http://localhost:4173`.
 
 ## Deploy to Vercel
 
-Import this directory as a project. No build command is required; the project is static. If a build command is preferred, use `npm run build` and set the output directory to `dist`.
+Import this directory as a project. Vercel runs `npm run build`, which publishes the generated `dist` directory. The repository's `vercel.json` sets this output directory explicitly.
 
 The live connection uses `api/backpack.js` as a Vercel serverless function. The browser sends a read-only API key and secret over HTTPS for a single snapshot; the function does not persist them. Keep the Backpack key set to **Read Only** with trading and withdrawal permissions disabled. Local `file://` preview supports demo mode; the live endpoint requires running through Vercel (or another HTTPS Node host).
 
