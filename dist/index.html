@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0e0f14" />
+    <meta name="description" content="A scenario planner for organizing one pool of capital across Backpack products." />
+    <title>Capital Composer · Backpack</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="splash" id="splash" aria-hidden="true"><div class="splash-bag"><img src="./public/backpack-splash.png" alt="Backpack" /></div><span>CAPITAL RADAR</span></div>
+    <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+    <header class="topbar">
+      <a class="brand" href="https://backpack.exchange/join/bed8c4fa-7c9f-40ff-80c8-399d96743b75" target="_blank" rel="noopener" aria-label="Open Backpack Exchange with referral"><img src="./public/backpack-glyph.png" alt="" /><span>Backpack</span></a>
+      <div class="topbar-center"><span class="live-dot"></span> Capital Radar <span class="beta">BETA</span></div>
+      <div class="topbar-actions"><a class="creator-link" href="https://x.com/0xhustler18" target="_blank" rel="noopener">Built by @0xhustler18 ↗</a><button class="tip-btn" id="tipBtn" onclick="openTip()">Tip creator</button><button class="ghost-btn" id="resetBtn">Reset plan</button></div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div class="eyebrow"><span class="red-line"></span> See your capital clearly.</div>
+        <h1>Your capital, <em>in focus.</em></h1>
+        <p>Connect Backpack with read-only access to understand exposure, collateral, lending, borrowing, and what you can safely do next.</p><a class="join-cta" href="https://backpack.exchange/join/bed8c4fa-7c9f-40ff-80c8-399d96743b75" target="_blank" rel="noopener"><span>New to Backpack?</span> Join now <b>↗</b></a>
+      </section>
+
+      <div class="mode-row">
+        <div class="segmented" role="tablist" aria-label="Tool view">
+          <button class="seg active" data-view="radar">Capital Radar</button>
+        </div>
+        <div class="status-pill"><span class="status-dot"></span> Read-only analysis · no trades placed</div>
+      </div>
+
+      <section class="radar-view view-panel" id="radarView">
+        <div class="radar-connect panel"><div><span class="kicker">01 / CONNECT</span><h2>See what your wallet is doing.</h2><p>Start with a public wallet scan, connect Backpack Exchange, or enter a few numbers manually.</p></div><div class="connect-actions"><button class="primary-btn" id="connectBtn" onclick="openConnect()">Connect Backpack <span>↗</span></button><button class="secondary-btn" id="manualBtn" onclick="openManual()">Enter manually</button><button class="secondary-btn" id="demoBtn">Explore demo</button></div></div>
+        <div class="connection-state hidden" id="connectionState"><span class="status-dot"></span><span id="connectionLabel">Backpack connected · read only</span><button class="text-btn" id="disconnectBtn">Disconnect</button></div>
+        <div class="radar-grid"><div class="panel health-panel"><div class="panel-head"><div><span class="kicker">02 / ACCOUNT HEALTH</span><h2>Risk at a glance</h2></div><span class="health-badge" id="healthBadge">Demo</span></div><div class="health-score"><div class="score-ring" id="scoreRing"><strong id="healthScore">72</strong><span>/ 100</span></div><div><strong id="healthHeadline">Balanced, with room to improve</strong><p id="healthCopy">Your reserve is visible, but active exposure deserves attention before adding more leverage.</p></div></div><div class="health-list"><div><span>Liquidation buffer</span><strong id="bufferValue">Healthy</strong></div><div><span>Concentration</span><strong id="concentrationValue">Moderate</strong></div><div><span>Debt pressure</span><strong id="debtValue">Low</strong></div></div></div><div class="panel actions-panel"><div class="panel-head"><div><span class="kicker">03 / SAFE NEXT MOVES</span><h2>What to consider</h2></div><span class="muted">not financial advice</span></div><div class="action-list" id="actionList"><article><span class="action-index">01</span><div><strong>Keep a reserve before adding leverage</strong><p>Maintain a buffer that can absorb a sharp market move or margin requirement.</p></div></article><article><span class="action-index">02</span><div><strong>Review idle balances</strong><p>Some unallocated assets may be eligible for lending, subject to variable rates and terms.</p></div></article><article><span class="action-index">03</span><div><strong>Stress-test your next position</strong><p>Model a 10% market move before you increase spot or futures exposure.</p></div></article></div></div></div>
+        <div class="radar-metrics panel"><div class="metric"><span>Total account value</span><strong id="radarTotal">$2,000</strong><small>demo data</small></div><div class="metric"><span>Active exposure</span><strong id="radarExposure">$900</strong><small id="radarExposureSub">45% of account</small></div><div class="metric"><span>Idle / lendable</span><strong id="radarIdle">$500</strong><small>rate varies by market</small></div><div class="metric"><span>Borrowed</span><strong id="radarBorrowed">$200</strong><small id="radarBorrowedSub">interest applies</small></div></div>
+        <div class="radar-bottom"><div class="panel scenario-panel"><div class="panel-head"><div><span class="kicker">04 / WHAT-IF LAB</span><h2>Test a decision</h2></div><span class="muted">illustrative</span></div><div class="whatif-row"><label>Market move<select id="marketMove"><option value="5">−5%</option><option value="10" selected>−10%</option><option value="20">−20%</option></select></label><label>New position<input id="newPosition" type="number" min="0" step="50" value="0" /></label></div><div class="whatif-result"><span>Estimated account impact</span><strong id="whatifImpact">−$90</strong></div><p class="muted">This simplified scenario is not a liquidation prediction. It helps you compare decisions before placing a trade.</p></div><div class="panel snapshot-panel"><div class="panel-head"><div><span class="kicker">05 / SHARE</span><h2>Account snapshot</h2></div><button class="icon-btn" id="radarShareBtn" title="Share account snapshot">↗</button></div><div class="snapshot-card"><img src="./public/backpack-glyph.png" alt="" /><div><strong id="snapshotTitle">Backpack account health · 72/100</strong><p id="snapshotCopy">Balanced composition · read-only snapshot</p></div></div><button class="secondary-btn full-btn" id="radarCopyBtn">Preview share card</button></div></div>
+      </section>
+
+      <section class="composer-grid view-panel hidden" id="composerView">
+        <div class="panel inputs-panel">
+          <div class="panel-head"><div><span class="kicker">01 / STARTING POINT</span><h2>Set your capital</h2></div><div class="currency">$ USD</div></div>
+          <label class="money-field"><span>$</span><input id="capital" type="number" min="100" step="100" value="1000" aria-label="Starting capital" /></label>
+          <div class="quick-row"><button data-capital="500">$500</button><button class="selected" data-capital="1000">$1k</button><button data-capital="5000">$5k</button><button data-capital="10000">$10k</button></div>
+          <div class="field-row"><label>Time horizon<select id="horizon"><option value="1">1 month</option><option value="3">3 months</option><option value="12">12 months</option></select></label><label>Risk comfort<select id="risk"><option value="low">Low</option><option value="balanced" selected>Balanced</option><option value="high">High</option></select></label><label>Primary goal<select id="goal"><option value="steady">Steady cashflow</option><option value="growth">Long-term growth</option><option value="learn">Learn the products</option></select></label></div>
+          <div class="assumption-box"><div><span class="kicker">RATE ASSUMPTIONS</span><p>Use live Backpack rates when connected. Until then, these are editable examples—not promises.</p></div><div class="assumption-fields"><label>Lending APY<input id="lendingRate" type="number" min="0" max="100" step="0.1" value="6" />%</label><label>Borrow APY<input id="borrowRate" type="number" min="0" max="100" step="0.1" value="10" />%</label></div></div>
+          <div class="divider"></div>
+          <div class="panel-head small"><div><span class="kicker">02 / ALLOCATION</span><h2>Move the sliders</h2></div><span class="muted">must total 100%</span></div>
+          <div id="allocations"></div>
+          <div class="allocation-total"><span>Total allocated</span><strong id="totalPct">100%</strong></div>
+          <div class="warning hidden" id="allocationWarning">Your allocation must equal 100% before the plan can be shared.</div>
+        </div>
+
+        <div class="panel output-panel">
+          <div class="panel-head"><div><span class="kicker">03 / YOUR COMPOSITION</span><h2>Capital map</h2></div><button class="icon-btn" id="shareBtn" title="Share plan">↗</button></div>
+          <div class="map-wrap"><div class="donut" id="donut"><div class="donut-center"><strong id="mapCapital">$1,000</strong><span>total capital</span></div></div><div class="legend" id="legend"></div></div>
+          <div class="metric-grid"><div class="metric"><span>Allocated capital</span><strong id="productive">$700</strong><small>placed across products</small></div><div class="metric"><span>Safety reserve</span><strong id="reserve">$300</strong><small>not allocated to risk</small></div><div class="metric"><span>Variable cashflow</span><strong id="income">$0–$8</strong><small id="incomeSub">lending carry / month</small></div><div class="metric"><span>Risk posture</span><strong id="riskLabel">Balanced</strong><small id="riskSub">moderate exposure</small></div></div>
+          <div class="cashflow-note"><span class="insight-mark">i</span><p><b>Important:</b> Spot holdings can gain or lose value but pay no automatic yield. Futures collateral supports a position and can lose value. Only lending is modeled as yield here; trading P&amp;L is intentionally shown separately as unknown.</p></div>
+          <div class="scenario-box"><div><span class="kicker">STRESS TEST</span><strong>What if markets fall <b>10%</b>?</strong><small class="scenario-note">Illustrative market shock; not a forecast.</small></div><div class="stress-value" id="stress">$0 impact</div></div>
+          <div class="insight" id="insight"><span class="insight-mark">✦</span><p>Keep a reserve visible. It gives your plan room to breathe when markets move quickly.</p></div>
+          <div class="recommendation" id="recommendation"><span class="kicker">PLANNER SUGGESTION</span><strong>Start with Balance</strong><p>Keep a reserve, lend only what you can leave untouched, and use a small active allocation to learn the interface.</p></div>
+        </div>
+      </section>
+
+      <section class="plan-strip panel">
+        <div><span class="kicker">START WITH A PRESET</span><h2>Choose a starting posture</h2></div>
+        <div class="presets"><button class="preset" data-preset="preserve"><span class="preset-icon">◌</span><span><b>Preserve</b><small>More reserve, less exposure</small></span></button><button class="preset current" data-preset="balanced"><span class="preset-icon">◒</span><span><b>Balance</b><small>Explore across products</small></span></button><button class="preset" data-preset="explore"><span class="preset-icon">◈</span><span><b>Explore</b><small>More active exposure</small></span></button></div>
+      </section>
+
+      <section class="explain-grid">
+        <div class="section-intro"><span class="kicker">MAKE IT LEGIBLE</span><h2>What does each bucket mean?</h2><p>Tap a concept to understand what the calculator is modeling.</p></div>
+        <div class="faq-list" id="faqList"></div>
+      </section>
+
+      <section class="share-card panel" id="shareCard">
+        <div class="share-card-top"><div><span class="kicker">SHAREABLE PLAN CARD</span><h2>Show your composition.</h2></div><button class="primary-btn" id="copyBtn">Copy share link <span>↗</span></button></div>
+        <div class="share-preview"><div class="share-brand"><img src="./public/backpack-glyph.png" alt="" /><span>BACKPACK / CAPITAL COMPOSER</span></div><div class="share-main"><div><span class="muted">MY CAPITAL PLAN</span><strong id="cardTitle">$1,000 · Balanced</strong><p id="cardSubtitle">One pool, composed across Backpack.</p></div><div class="mini-bars" id="miniBars"></div></div><div class="share-foot"><span id="cardFoot">Scenario only · variable outcomes · not financial advice</span><span id="shareId">PLAN / 0001</span></div></div>
+      </section>
+
+      <footer><span>Built for exploration around Backpack’s integrated products.</span><span>Not investment advice. Outcomes are variable.</span></footer>
+    </main>
+    <div class="share-modal" id="shareModal" aria-hidden="true"><div class="share-modal-backdrop" data-close-share onclick="if(event.target===this)closeShare()"></div><div class="share-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle"><div class="share-modal-head"><div><span class="kicker">READY TO SHARE</span><h2 id="shareModalTitle">Your Backpack plan</h2></div><button class="icon-btn" data-close-share onclick="closeShare()" aria-label="Close share dialog">×</button></div><div class="modal-card" id="modalCard"></div><div class="share-actions"><button class="primary-btn" id="modalCopyBtn">Copy link <span>↗</span></button><a class="x-btn" id="xShareBtn" href="#" target="_blank" rel="noopener">Post on X <span>↗</span></a></div><p class="modal-note">Share the composition and assumptions—not a promise of returns.</p></div></div>
+    <div class="connect-modal" id="connectModal" aria-hidden="true"><div class="share-modal-backdrop" data-close-connect onclick="if(event.target===this)closeConnect()"></div><div class="connect-dialog" role="dialog" aria-modal="true"><div class="share-modal-head"><div><span class="kicker">READ-ONLY CONNECTION</span><h2>Connect Backpack</h2></div><button class="icon-btn" data-close-connect onclick="closeConnect()" aria-label="Close connection dialog">×</button></div><p class="connect-lead">Use a Backpack Exchange API key with <b>Read Only</b> enabled. We never need your seed phrase, trading permission, or withdrawal permission.</p><div class="connect-option"><span class="option-mark">01</span><div><strong>Explore demo account</strong><p>See the full Capital Radar with sample balances instantly.</p></div><button class="secondary-btn" id="modalDemoBtn">Use demo</button></div><div class="connect-option api-form"><span class="option-mark">02</span><div class="api-fields"><strong>Connect Exchange — read only</strong><label>API key<input id="apiKeyInput" type="password" autocomplete="off" placeholder="Base64 public key" /></label><label>API secret<input id="apiSecretInput" type="password" autocomplete="off" placeholder="Base64 private seed" /></label><button class="primary-btn" id="apiConnectBtn">Connect securely <span>↗</span></button><small id="apiStatus">Credentials are sent over HTTPS to the read-only endpoint and are not saved.</small></div></div><div class="connect-foot">Create keys at Backpack Exchange → Settings → API Keys. Select <b>Read Only</b> and keep trading and withdrawal permissions disabled.</div></div></div>
+    <div class="tip-modal" id="tipModal" aria-hidden="true"><div class="share-modal-backdrop" data-close-tip onclick="if(event.target===this)closeTip()"></div><div class="tip-dialog" role="dialog" aria-modal="true"><div class="share-modal-head"><div><span class="kicker">SUPPORT THE BUILDER</span><h2>Send a Solana tip</h2></div><button class="icon-btn" data-close-tip onclick="closeTip()" aria-label="Close tip dialog">×</button></div><p class="connect-lead">If this tool is useful, you can support its development with a voluntary tip.</p><div class="address-box"><span>Solana address</span><code id="tipAddress">AZtz2y4YSE8eRn9sMbt5BopN364Yh1VdnoymBBFc9nCe</code><button class="secondary-btn" id="copyTipBtn">Copy address</button></div><a class="creator-link tip-x" href="https://x.com/0xhustler18" target="_blank" rel="noopener">Visit @0xhustler18 on X ↗</a><p class="modal-note">Verify the address in your wallet before sending. Tips are voluntary and irreversible.</p></div></div>
+    <div class="manual-modal" id="manualModal" aria-hidden="true"><div class="share-modal-backdrop" data-close-manual onclick="if(event.target===this)closeManual()"></div><div class="tip-dialog manual-dialog" role="dialog" aria-modal="true"><div class="share-modal-head"><div><span class="kicker">MANUAL SNAPSHOT</span><h2>Enter your account numbers</h2></div><button class="icon-btn" data-close-manual onclick="closeManual()" aria-label="Close manual dialog">×</button></div><p class="connect-lead">Use rounded numbers from your Backpack profile. Optional fields can stay at zero. Nothing is sent anywhere.</p><div class="manual-fields"><label>Total account value<input id="manualTotal" type="number" min="0" step="50" value="2000" /></label><label>Spot holdings<input id="manualSpot" type="number" min="0" step="50" value="700" /></label><label>Futures collateral<input id="manualFutures" type="number" min="0" step="50" value="300" /></label><label>Stocks / TradFi<input id="manualStocks" type="number" min="0" step="50" value="200" /></label><label>Lending balance<input id="manualLending" type="number" min="0" step="50" value="300" /></label><label>Safety reserve<input id="manualReserve" type="number" min="0" step="50" value="500" /></label><label>Borrowed amount<input id="manualBorrowed" type="number" min="0" step="50" value="200" /></label><label>Leverage<input id="manualLeverage" type="number" min="1" max="100" step="0.5" value="3" /></label><label>Unrealized P&amp;L <span class="optional-label">optional</span><input id="manualPnl" type="number" step="50" value="0" /></label></div><button class="primary-btn full-btn" id="manualApplyBtn" onclick="applyManualSnapshot()">Generate my Radar <span>↗</span></button></div></div>
+    <div class="toast" id="toast">Share link copied</div>
+    <script src="./app.js"></script>
+  </body>
+</html>
