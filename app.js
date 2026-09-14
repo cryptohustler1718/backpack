@@ -74,7 +74,7 @@ function radarProfile(d,source,move,extra){
   if(total){if(bufferRatio<.05||activeRatio>=.95||futuresRatio>=.75&&bufferRatio<.15)bufferLabel='Very thin';else if(bufferRatio<.15||activeRatio>=.75||shockRatio>=.15)bufferLabel='Thin';else if(bufferRatio<.3||activeRatio>=.5)bufferLabel='Watch';else bufferLabel='Healthy'}
   let concentrationLabel='No active exposure';
   if(source==='live'&&!shareEntries.length){const markets=Number(d.positionCount)||0,assets=Number(d.collateralAssetCount)||0;concentrationLabel=markets===1?'Single market':markets>1?'Multiple markets':assets>1?`${assets} collateral assets`:assets===1?'Single collateral asset':'No active exposure'}
-  else if(largest[1]>=.8)concentrationLabel='Very high';else if(largest[1]>=.6)concentrationLabel='High';else if(largest[1]>=.4)concentrationLabel='Moderate';else if(largest[1]>0)concentrationLabel='Diversified';
+  else if(largest[1]>=80)concentrationLabel='Very high';else if(largest[1]>=60)concentrationLabel='High';else if(largest[1]>=40)concentrationLabel='Moderate';else if(largest[1]>0)concentrationLabel='Diversified';
   let debtLabel='None';if(borrowed>0){debtLabel=debtRatio>=.5?'High':debtRatio>=.25?'Elevated':'Low'}
   const score=Number.isFinite(Number(d.score))?Math.max(35,Math.min(96,Math.round(Number(d.score)))):Math.max(35,Math.min(96,Math.round(86-activeRatio*30-debtRatio*25-(total?extra/total*20:0))));
   return {total,exposure,idle,borrowed,bufferCapital,bufferRatio,activeRatio,debtRatio,futuresRatio,shock,shockRatio,largest,shareEntries,bufferLabel,concentrationLabel,debtLabel,score,positionCount:Number(d.positionCount)||0,collateralAssetCount:Number(d.collateralAssetCount)||0,source,move,extra};
